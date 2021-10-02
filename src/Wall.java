@@ -4,22 +4,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class Wall extends Pane {
-    private boolean isBreakable;
-    private ImageView image;
-    private int life;
-    public Wall(double x,double y,String s,double width,double height) {
-
-        image=new ImageView(new Image(s));
-        image.setX(x);
-        image.setY(y);
-        image.setFitHeight(height);
-        image.setFitWidth(width);
-        getChildren().add(image);
+    private boolean breakable;
+    private boolean through;
+    public Wall() {
     }
 
-
+    public boolean isBreakable() {
+        return breakable;
+    }
 
     public void setBreakable(boolean breakable) {
-        isBreakable = breakable;
+        this.breakable = breakable;
+    }
+
+    public boolean isThrough() {
+        return through;
+    }
+
+    public void setThrough(boolean through) {
+        this.through = through;
     }
 }

@@ -1,6 +1,17 @@
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Tree extends Wall {
-    public Tree(double x, double y, String s, double width, double height) {
-        super(x, y, s, width, height);
+    ImageView image;
+    public Tree(double x, double y, double width, double height) {
+        image=new ImageView(new Image("file:tree.png"));
+        image.setX(x);
+        image.setY(y);
+        image.setFitHeight(height);
+        image.setFitWidth(width);
+        getChildren().add(image);
+        setBreakable(false);
+        setThrough(true);
 
     }
 }

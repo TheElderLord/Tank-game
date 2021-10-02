@@ -1,79 +1,68 @@
-import java.util.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
+import java.util.Scanner;
 
 public class Map extends Pane {
-    private char[][] map;
     private int size;
-    private double grid = 50;
-    private ImageView image;
+    private char[][] map;
+    private double pixSize =30;
     private Wall wall;
-    static ArrayList<Brick> bricks= new ArrayList<>();
-    public Map(String s) throws InvalidMapException, FileNotFoundException {
-        Scanner scan = new Scanner(new File(s));
-        size = scan.nextInt();
-
-        if(size == 0){
-            throw new InvalidMapException("Map size can not be zero");
-        }
+    private ImageView image;
+    private Position startPoint;
+    public Map(String s) throws FileNotFoundException {
+        Scanner input = new Scanner(new File(s));
+        size = input.nextInt();
         map = new char[size][size];
-
-        try {
-            for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    map[i][j] = scan.next().charAt(0);
+                    map[i][j] = input.next().charAt(0);
                 }
             }
-        }
-        catch (Exception e){
-            throw new InvalidMapException("Invalid map");
-        }
-        for (int i = 0; i < size ; i++) {
+
+        for (int i = 0; i <size ; i++) {
             for (int j = 0; j <size ; j++) {
-                Rectangle rectangle =new Rectangle(j * getGrid(),i * getGrid(), getGrid(), getGrid());
-                getChildren().addAll(rectangle);
-                if (getValueAt(i, j) == 'B'){
-                    Brick wall = new Brick(j * getGrid(),i * getGrid(), getGrid(), getGrid(),this);
-                    bricks.add(wall);
-
-                }
-
-                else if (getValueAt(i, j)  =='W'){
-                    wall = new Water(j * getGrid(),i * getGrid(),"file:water.png", getGrid(), getGrid());
-                    wall.setBreakable(false);
+                if (map[i][j]=='B'){
+                    wall = new Brick(j* getPixSize(),i* getPixSize(), getPixSize(), getPixSize());
                     getChildren().add(wall);
 
                 }
+                else if (map[i][j]=='S'){
+                    wall=new Steel(j* getPixSize(),i* getPixSize(), getPixSize(), getPixSize());
 
-                else if (getValueAt(i, j)  == 'S'){
-                    wall = new Steel(j * getGrid(),i * getGrid(),"file:steel.png", getGrid(), getGrid());
-                    wall.setBreakable(false);
                     getChildren().add(wall);
 
                 }
-
-                else if (getValueAt(i, j)  == 'T'){
-                    wall = new Tree(j * getGrid(),i * getGrid(),"file:tree.png", getGrid(), getGrid());
-                    wall.setBreakable(false);
+                else if (map[i][j]=='W'){
+                    wall=new Water(j* getPixSize(),i* getPixSize(), getPixSize(), getPixSize());
                     getChildren().add(wall);
 
                 }
-                else if (getValueAt(i, j)  =='0'  || getValueAt(i, j) =='P'){
+                else if (map[i][j]=='T'){
+                    wall=new Tree(j* getPixSize(),i* getPixSize(), getPixSize(), getPixSize());
+                    getChildren().add(wall);
+
+                }
+                else if (map[i][j]=='0'  ){
                     image = new ImageView(new Image("file:way.png"));
-                    image.setX(j * getGrid());
-                    image.setY(i * getGrid());
-                    image.setFitHeight(getGrid());
-                    image.setFitWidth(getGrid());
+                    image.setX(j* getPixSize());
+                    image.setY(i* getPixSize());
+                    image.setFitHeight(getPixSize());
+                    image.setFitWidth(getPixSize());
                     getChildren().add(image);
                 }
-
-
+                else if (map[i][j]=='P'){
+                    image = new ImageView(new Image("file:way.png"));
+                    image.setX(j* getPixSize());
+                    image.setY(i* getPixSize());
+                    image.setFitHeight(getPixSize());
+                    image.setFitWidth(getPixSize());
+                    getChildren().add(image);
+                    startPoint=new Position(j,i);
+                }
             }
         }
     }
@@ -82,37 +71,19 @@ public class Map extends Pane {
         return size;
     }
 
-    public double getGrid() {
-        return grid;
+    public double getPixSize() {
+        return pixSize;
     }
 
     public char getValueAt(int i, int j){
 
         return map[i][j];
     }
-
-    public void print(){
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static ArrayList<Brick> getBricks() {
-        return bricks;
-    }
-
     public char[][] getMap() {
         return map;
     }
-    public void setValue(int i, int j){
-        map[i][j] = 0;
-    }
-    public void delBrick(int x,int y){
-        map[x][y]='0';
+
+    public Position getStartPoint() {
+        return startPoint;
     }
 }
-
-

@@ -1,24 +1,23 @@
 package sample;
 
-public class Main{
-    public static void main(String[] args) {
-        String a = "ArsenUIods";
-        String b = "Arseb";
-        plag(a,b);
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.show();
     }
-    public static void plag(String s,String t){
-        double count = 0;
-        while (s.length()>t.length()){
-                t+=" ";
-        }
-        while (t.length()>s.length()){
-            s+=" ";
-        }
-        for (int i = 0; i <s.length() ; i++) {
-            if (s.charAt(i)==t.charAt(i)){
-                count++;
-            }
-        }
-        System.out.println((count/s.length())*100+"%");
+
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

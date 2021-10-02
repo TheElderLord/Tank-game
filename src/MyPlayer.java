@@ -26,6 +26,7 @@ public class MyPlayer implements Player {
     @Override
     public void moveRight() {
         if(map.getValueAt(position.getY(),position.getX()+1)!=1 ){
+            //checks the next position is valid
 
             position.setX(position.getX()+1);
 
@@ -33,10 +34,10 @@ public class MyPlayer implements Player {
     }
 
     @Override
-    public void moveLeft() {
+    public void moveLeft() {//checks the next position is valid
         if(map.getValueAt(position.getY(),position.getX()-1)!=1){
 
-            position.setX(position.getX()-1);
+                position.setX(position.getX()-1);
 
 
         }else
@@ -46,10 +47,10 @@ public class MyPlayer implements Player {
 
 
     @Override
-    public void moveUp() {
+    public void moveUp() {//checks the next position is valid
         if(map.getValueAt(position.getY()-1,position.getX())!=1){
 
-            position.setY(position.getY() - 1);
+                position.setY(position.getY() - 1);
 
         }else
             System.out.println("Invalid Position");
@@ -59,10 +60,10 @@ public class MyPlayer implements Player {
 
 
     @Override
-    public void moveDown() {
+    public void moveDown() {//checks the next position is valid
         if(map.getValueAt(position.getY()+1,position.getX())!=1){
 
-            position.setY(position.getY() + 1);
+                position.setY(position.getY() + 1);
 
         }else
             System.out.println("Invalid Position");
